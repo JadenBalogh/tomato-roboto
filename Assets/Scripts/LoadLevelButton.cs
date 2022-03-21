@@ -11,6 +11,9 @@ public class LoadLevelButton : MonoBehaviour
         {
             SceneManager.LoadScene($"Win");
         }
-        SceneManager.LoadScene($"Level{GameManager.LevelIndex + 1}");
+        else
+        {
+            SceneManager.LoadScene($"Level{GameManager.LevelIndex + 1}");
+        }
     }
 }

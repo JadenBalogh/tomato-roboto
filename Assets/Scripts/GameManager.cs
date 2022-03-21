@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int endLevel = 3;
     public static int EndLevelIndex { get => instance.endLevel; }
 
-    public static int LevelIndex { get; private set; }
+    public static int LevelIndex { get; set; }
+
     public static bool IsGameOver { get; private set; }
     public static bool IsLevelOver { get; private set; }
     public static Player Player { get; private set; }
@@ -28,14 +29,16 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         instance = this;
-
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        LevelIndex++;
+        if (scene.name == "Win") return;
+        
         IsLevelOver = false;
+        IsGameOver = false;
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         startTime = Time.time;
         Time.timeScale = 1f;
@@ -46,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
         if (IsLevelOver) return;
 
+        LevelIndex++;
         IsLevelOver = true;
         endTime = Time.time;
         Time.timeScale = 0f;
